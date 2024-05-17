@@ -120,6 +120,7 @@ public class InstructionFileOperation {
                 break;
             case "save":
                 System.out.println("Save Command Called");
+                this.saveUpdatedPhoneBookInFile(phonebook);
                 break;
             default:
                 System.out.println("Invalid Command");
@@ -132,6 +133,11 @@ public class InstructionFileOperation {
                 operateCommands(item, phonebook);
             }
         }
+    }
+
+    public void saveUpdatedPhoneBookInFile(Phonebook phonebook){
+        writePersonsToFile("final-phonebook.txt", phonebook.getEntries());
+
     }
 
     public void queryCommandHandler(Phonebook phonebook, String command){
