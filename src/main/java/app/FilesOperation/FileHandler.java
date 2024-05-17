@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,6 +41,17 @@ public class FileHandler {
         }
 
         return fileContent;
+    }
+
+    static void appendToFile(String filepath, String content) {
+        try {
+            // Append the content to the specified file
+            Files.write(Paths.get(filepath), (content + System.lineSeparator()).getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+        } catch (IOException e) {
+            // Handle specific exceptions and print a descriptive message
+            System.err.println("Error appending to file: " + filepath);
+            e.printStackTrace();
+        }
     }
     
 }

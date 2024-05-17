@@ -72,12 +72,11 @@ public class PhoneBookEntry implements InterfacePhoneBookEntry {
     }
     @Override
     public String toString() {
-        return "EssentialPhoneBookEntry{" +
+        return
                 "name='" + name + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", birthday='" + birthday + '\'' +
                 ", address='" + address + '\'' +
-                ", email='" + email + '\'' +
-                '}';
+                ", email='" + email + '\'';
     }
 }

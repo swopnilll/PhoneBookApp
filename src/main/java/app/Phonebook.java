@@ -19,6 +19,12 @@ public class Phonebook {
         this.initializePhoneBookWithDataFromFile(dataFromPhoneBookFile);
     }
 
+    /**
+     * Method is used to read text from phonebook.txt file and convert
+     * it to Objects in Java for storage in memory.
+     *
+     * @param dataFromPhoneBookFile
+     */
     public  void initializePhoneBookWithDataFromFile(List<String> dataFromPhoneBookFile)  {
 
         if(!dataFromPhoneBookFile.isEmpty()){
@@ -44,12 +50,59 @@ public class Phonebook {
         this.entries.add(entry);
     }
 
+    public List<PhoneBookEntry> searchEntriesByName(String name) {
+        List<PhoneBookEntry> results = new ArrayList<>();
 
-    public List<InterfacePhoneBookEntry> searchEntriesByName(String name) {
-        List<InterfacePhoneBookEntry> results = new ArrayList<>();
-
-        for (InterfacePhoneBookEntry entry : this.entries) {
+        for (PhoneBookEntry entry : this.entries) {
             if (entry.getName().equalsIgnoreCase(name)) {
+                results.add(entry);
+            }
+        }
+
+        return results;
+    }
+
+    public List<PhoneBookEntry> searchEntriesByPhone(String phone) {
+        List<PhoneBookEntry> results = new ArrayList<>();
+
+        for (PhoneBookEntry entry : this.entries) {
+            if (entry.getPhoneNumber().equalsIgnoreCase(phone)) {
+                results.add(entry);
+            }
+        }
+
+        return results;
+    }
+
+    public List<PhoneBookEntry> searchEntriesByBirthday(String birthday) {
+        List<PhoneBookEntry> results = new ArrayList<>();
+
+        for (PhoneBookEntry entry : this.entries) {
+            if (entry.getBirthday().equalsIgnoreCase(birthday)) {
+                results.add(entry);
+            }
+        }
+
+        return results;
+    }
+
+    public List<PhoneBookEntry> searchEntriesByEmail(String email) {
+        List<PhoneBookEntry> results = new ArrayList<>();
+
+        for (PhoneBookEntry entry : this.entries) {
+            if (entry.getEmail().equalsIgnoreCase(email)) {
+                results.add(entry);
+            }
+        }
+
+        return results;
+    }
+
+    public List<PhoneBookEntry> searchEntriesByAddress(String address) {
+        List<PhoneBookEntry> results = new ArrayList<>();
+
+        for (PhoneBookEntry entry : this.entries) {
+            if (entry.getAddress().equalsIgnoreCase(address)) {
                 results.add(entry);
             }
         }

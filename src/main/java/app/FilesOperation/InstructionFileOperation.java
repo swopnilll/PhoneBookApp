@@ -3,6 +3,8 @@ package main.java.app.FilesOperation;
 import main.java.app.PhoneBookEntry;
 import main.java.app.Phonebook;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class InstructionFileOperation {
@@ -101,8 +103,7 @@ public class InstructionFileOperation {
 
     }
 
-
-    public static void operateCommands(String instructions, Phonebook phonebook) {
+    public  void operateCommands(String instructions, Phonebook phonebook) {
         String commandVerb = getCommandVerb(instructions);
         String command = getCommandInstruction(instructions);
 
@@ -115,6 +116,7 @@ public class InstructionFileOperation {
                 break;
             case "query":
                 System.out.println("Query Command Called");
+                this.queryCommandHandler(phonebook, command);
                 break;
             case "save":
                 System.out.println("Save Command Called");
@@ -132,5 +134,48 @@ public class InstructionFileOperation {
         }
     }
 
+    public void queryCommandHandler(Phonebook phonebook, String command){
+        String field = getCommandVerb(command);
+        String value = getCommandInstruction(command);
 
+        List<PhoneBookEntry> queryOutcome = new ArrayList<>();
+
+        switch (field){
+            case "name":
+                queryOutcome = phonebook.searchEntriesByName(value);
+                break;
+
+            case "birthday":
+                queryOutcome = phonebook.searchEntriesByBirthday(value);
+                break;
+
+            case "phone":
+                queryOutcome = phonebook.searchEntriesByPhone(value);
+                break;
+
+            case "email":
+                queryOutcome = phonebook.searchEntriesByEmail(value);
+                break;
+
+            case "address":
+                queryOutcome = phonebook.searchEntriesByAddress(value);
+                break;
+
+            default:
+                queryOutcome = null;
+        }
+
+        if(queryOutcome != null){
+            writePersonsToFile("result.txt", queryOutcome);
+        }
+
+    }
+
+    public static void writePersonsToFile(String filepath, List<PhoneBookEntry> persons)  {
+        // Convert each Person object to its string representation and append to the file
+        for (PhoneBookEntry person : persons) {
+            String personString = person.toString(); // or use JSON library to convert to JSON format
+            FileHandler.appendToFile(filepath, personString);
+        }
+    }
 }
