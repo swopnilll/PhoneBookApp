@@ -14,6 +14,10 @@ public class Phonebook {
     private List<PhoneBookEntry> entries;
 
     public Phonebook(List<String> dataFromPhoneBookFile)  {
+
+        if(dataFromPhoneBookFile.isEmpty()){
+            System.out.println("phone book is empty");
+        }
         System.out.println(dataFromPhoneBookFile);
 
         this.initializePhoneBookWithDataFromFile(dataFromPhoneBookFile);
@@ -34,6 +38,8 @@ public class Phonebook {
             entries.forEach(entry -> System.out.println(entry.toString()));
 
             this.setEntries(entries);
+        }else{
+            System.out.println("Phone book file is empty");
         }
     }
 
@@ -63,13 +69,22 @@ public class Phonebook {
     }
 
     public List<PhoneBookEntry> searchEntriesByPhone(String phone) {
+
         List<PhoneBookEntry> results = new ArrayList<>();
 
-        for (PhoneBookEntry entry : this.entries) {
-            if (entry.getPhoneNumber().equalsIgnoreCase(phone)) {
-                results.add(entry);
+        try{
+            for (PhoneBookEntry entry : this.entries) {
+                if (entry.getPhoneNumber()!=null) {
+                    if(entry.getPhoneNumber().equalsIgnoreCase(phone)){
+                        results.add(entry);
+                    }
+
+                }
             }
+        }catch(IllegalArgumentException e){
+            System.err.println("Error: " + e.getMessage());
         }
+
 
         return results;
     }

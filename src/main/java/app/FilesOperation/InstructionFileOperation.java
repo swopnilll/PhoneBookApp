@@ -7,8 +7,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class for instruction file operation.
+ */
 public class InstructionFileOperation {
-
+    /**
+     * Function to get the command verb from the instruction sentence.
+     *
+     * @param instructions
+     * @return String
+     */
     public static String getCommandVerb(String instructions) {
         return instructions.split(" ")[0].trim().toLowerCase();
     }
@@ -19,12 +27,25 @@ public class InstructionFileOperation {
         return parts.length > 1 ? parts[1].trim() : "";
     }
 
+    /**
+     * Function to validate if entry exists
+     *
+     * @param person
+     * @param phoneBookDatabase
+     * @return Boolean
+     */
     public static Boolean validateIfEntryExists(PhoneBookEntry person, List<PhoneBookEntry> phoneBookDatabase){
         return phoneBookDatabase.stream().anyMatch(item ->
                 item.getName().equals(person.getName()) && item.getBirthday().equals(person.getBirthday())
         );
     }
 
+    /**
+     * Function to update the existing entry
+     *
+     * @param person
+     * @param phonebook
+     */
     public static void updateExistingEntry(PhoneBookEntry person, Phonebook phonebook){
         PhoneBookEntry existingPerson = phonebook.getEntries().stream().filter(entry ->
                 entry.getName().equals(person.getName()) && entry.getBirthday().equals(person.getBirthday())
@@ -43,9 +64,14 @@ public class InstructionFileOperation {
         }
     }
 
+    /**
+     * Function to add the phone book entry.
+     *
+     * @param newEntryDetails
+     * @param phonebook
+     */
     public static void addPhoneBook(String newEntryDetails, Phonebook phonebook){
         String[] keyValue = newEntryDetails.split(";");
-
         PhoneBookEntry phoneBookEntry = new PhoneBookEntry();
 
         for(String item: keyValue){
@@ -86,6 +112,12 @@ public class InstructionFileOperation {
 
     }
 
+    /**
+     * Function to delete Phone book entry
+     *
+     * @param phonebook
+     * @param detail
+     */
     public static void deletePhoneBookEntry(Phonebook phonebook, String detail){
         String[] keyValue = detail.split(";");
 
@@ -103,7 +135,15 @@ public class InstructionFileOperation {
 
     }
 
-    public  void operateCommands(String instructions, Phonebook phonebook) {
+    /**
+     * Function to operate commands like add, edit, delete, query and save
+     *
+     * @param instructions
+     * @param phonebook
+     * @param phoneBookFile
+     * @param resultFile
+     */
+    public  void operateCommands(String instructions, Phonebook phonebook,String phoneBookFile, String resultFile) {
         String commandVerb = getCommandVerb(instructions);
         String command = getCommandInstruction(instructions);
 
@@ -116,31 +156,52 @@ public class InstructionFileOperation {
                 break;
             case "query":
                 System.out.println("Query Command Called");
-                this.queryCommandHandler(phonebook, command);
+                this.queryCommandHandler(phonebook, command,resultFile);
                 break;
             case "save":
                 System.out.println("Save Command Called");
-                this.saveUpdatedPhoneBookInFile(phonebook);
+                this.saveUpdatedPhoneBookInFile(phonebook, phoneBookFile);
                 break;
             default:
                 System.out.println("Invalid Command");
         }
     }
 
-    public void parseAndExecuteInstructions(List<String> data, Phonebook phonebook){
+    /**
+     * Function to parse and execute the instructions
+     *
+     * @param data
+     * @param phonebook
+     * @param phoneBookFile
+     * @param resultFile
+     */
+    public void parseAndExecuteInstructions(List<String> data, Phonebook phonebook, String phoneBookFile, String resultFile){
         for(String item : data){
             if(!item.isEmpty()) {
-                operateCommands(item, phonebook);
+                operateCommands(item, phonebook,phoneBookFile,resultFile);
             }
         }
     }
 
-    public void saveUpdatedPhoneBookInFile(Phonebook phonebook){
-        writePersonsToFile("final-phonebook.txt", phonebook.getEntries());
+    /**
+     * Function to save and update phone book in file
+     *
+     * @param phonebook
+     * @param phoneBookFile
+     */
+    public void saveUpdatedPhoneBookInFile(Phonebook phonebook, String phoneBookFile){
+        writePersonsToFile(phoneBookFile, phonebook.getEntries());
 
     }
 
-    public void queryCommandHandler(Phonebook phonebook, String command){
+    /**
+     * Function to handle query command
+     *
+     * @param phonebook
+     * @param command
+     * @param queryFile
+     */
+    public void queryCommandHandler(Phonebook phonebook, String command, String queryFile){
         String field = getCommandVerb(command);
         String value = getCommandInstruction(command);
 
@@ -172,11 +233,17 @@ public class InstructionFileOperation {
         }
 
         if(queryOutcome != null){
-            writePersonsToFile("result.txt", queryOutcome);
+            writePersonsToFile(queryFile, queryOutcome);
         }
 
     }
 
+    /**
+     * Function to write the persons record to file.
+     *
+     * @param filepath
+     * @param persons
+     */
     public static void writePersonsToFile(String filepath, List<PhoneBookEntry> persons)  {
         // Convert each Person object to its string representation and append to the file
         for (PhoneBookEntry person : persons) {

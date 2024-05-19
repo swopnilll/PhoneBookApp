@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PhoneBookFileOperation {
-
     public List<PhoneBookEntry> parseAndAddEntries(List<String> data) {
         List<PhoneBookEntry> entries = new ArrayList<>();
 

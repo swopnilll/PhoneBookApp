@@ -12,6 +12,12 @@ import java.util.List;
  * Manages file I/O operations
  */
 public class FileHandler {
+    /**
+     * Function to get files content as a list
+     *
+     * @param file
+     * @return Array list
+     */
     public List<String> getFilesContentInList(String file) {
         List<String> fileContent = new ArrayList<>();
 
@@ -43,6 +49,12 @@ public class FileHandler {
         return fileContent;
     }
 
+    /**
+     * Function to append content to file
+     *
+     * @param filepath
+     * @param content
+     */
     static void appendToFile(String filepath, String content) {
         try {
             // Append the content to the specified file
